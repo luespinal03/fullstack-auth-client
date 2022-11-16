@@ -22,6 +22,8 @@ export const AuthProvider = ({ children }) => {
 
     // call this function when you want to register the user
     const register = async (email, password) => {
+
+
         setIsAuthLoading(true);
         const registerResult = await registerUser(email, password);
         setIsAuthLoading(false);
@@ -42,10 +44,11 @@ export const AuthProvider = ({ children }) => {
     // call this function to sign out logged in user
     const logout = async () => {
         setIsAuthLoading(true);
-        await removeLSUserData(); // This has to be awaited for the useEffect to work
+        const removedData = await removeLSUserData(); // This has to be awaited for the useEffect to work
         setUserToken(null);
         setUserEmail("");
         setIsAuthLoading(false);
+        return removedData
     };
 
     /*  
@@ -83,6 +86,9 @@ const registerUser = async (email, password) => {
         }),
     });
     const responseJSON = await response.json();
+    console.log(responseJSON)
+
+
     return responseJSON;
 };
 
